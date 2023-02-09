@@ -17,16 +17,37 @@ class ViewController: UIViewController, TagListViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let strings = ["TagListView", "TEAChart", "To Be Removed", "Quark Shell"]
         tagListView.delegate = self
-        tagListView.addTag("TagListView")
-        tagListView.addTag("TEAChart")
-        tagListView.addTag("To Be Removed")
-        tagListView.addTag("To Be Removed")
-        tagListView.addTag("Quark Shell")
-        tagListView.removeTag("To Be Removed")
-        tagListView.addTag("On tap will be removed").onTap = { [weak self] tagView in
-            self?.tagListView.removeTagView(tagView)
+        for str in strings {
+            // Create Attachment
+            let imageAttachment = NSTextAttachment()
+            imageAttachment.image = UIImage(named:"add")
+            // Set bound to reposition
+            let imageOffsetY: CGFloat = -5.0
+            imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 20, height: 20)
+            // Create string with attachment
+            let attachmentString = NSAttributedString(attachment: imageAttachment)
+            // Initialize mutable string
+            let completeText = NSMutableAttributedString(string: "")
+            // Add image to mutable string
+            completeText.append(attachmentString)
+            // Add your text to mutable string
+            let textAfterIcon = NSAttributedString(string: str)
+            completeText.append(textAfterIcon)
+            tagListView.addTagAttributedString(completeText, ImageWidth: 20)
         }
+        
+        
+//        tagListView.addTag("TagListView")
+//        tagListView.addTag("TEAChart")
+//        tagListView.addTag("To Be Removed")
+//        tagListView.addTag("To Be Removed")
+//        tagListView.addTag("Quark Shell")
+//        tagListView.removeTag("To Be Removed")
+//        tagListView.addTag("On tap will be removed").onTap = { [weak self] tagView in
+//            self?.tagListView.removeTagView(tagView)
+//        }
         
         let tagView = tagListView.addTag("gray")
         tagView.tagBackgroundColor = UIColor.gray
@@ -35,7 +56,7 @@ class ViewController: UIViewController, TagListViewDelegate {
         }
 
         tagListView.insertTag("This should be the third tag", at: 2)
-        
+        tagListView.enableRemoveButton = false
         biggerTagListView.delegate = self
         biggerTagListView.textFont = .systemFont(ofSize: 15)
         biggerTagListView.shadowRadius = 2

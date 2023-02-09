@@ -334,6 +334,40 @@ open class TagListView: UIView {
         return CGSize(width: frame.width, height: height)
     }
     
+    private func createNewTagViewAttributedString(_ title: NSAttributedString, ImageWidth: CGFloat) -> TagView {
+        let tagView = TagView(attributedStringtitle: title, ImageWidth: ImageWidth)
+        
+        tagView.imageWidth = ImageWidth
+        tagView.textColor = textColor
+        tagView.selectedTextColor = selectedTextColor
+        tagView.tagBackgroundColor = tagBackgroundColor
+        tagView.highlightedBackgroundColor = tagHighlightedBackgroundColor
+        tagView.selectedBackgroundColor = tagSelectedBackgroundColor
+        tagView.titleLineBreakMode = tagLineBreakMode
+        tagView.cornerRadius = cornerRadius
+        tagView.borderWidth = borderWidth
+        tagView.borderColor = borderColor
+        tagView.selectedBorderColor = selectedBorderColor
+        tagView.paddingX = paddingX
+        tagView.paddingY = paddingY
+        tagView.textFont = textFont
+        tagView.removeIconLineWidth = removeIconLineWidth
+        tagView.removeButtonIconSize = removeButtonIconSize
+        tagView.enableRemoveButton = enableRemoveButton
+        tagView.removeIconLineColor = removeIconLineColor
+        tagView.addTarget(self, action: #selector(tagPressed(_:)), for: .touchUpInside)
+        tagView.removeButton.addTarget(self, action: #selector(removeButtonPressed(_:)), for: .touchUpInside)
+        
+        // On long press, deselect all tags except this one
+        tagView.onLongPress = { [unowned self] this in
+            self.tagViews.forEach {
+                $0.isSelected = $0 == this
+            }
+        }
+        
+        return tagView
+    }
+    
     private func createNewTagView(_ title: String) -> TagView {
         let tagView = TagView(title: title)
         
@@ -366,12 +400,24 @@ open class TagListView: UIView {
         
         return tagView
     }
+    
 
+    @discardableResult
+    open func addTagAttributedString(_ title: NSAttributedString, ImageWidth: CGFloat) -> TagView {
+        defer { rearrangeViews() }
+        return addTagView(createNewTagViewAttributedString(title, ImageWidth: ImageWidth))
+    }
+    
     @discardableResult
     open func addTag(_ title: String) -> TagView {
         defer { rearrangeViews() }
         return addTagView(createNewTagView(title))
     }
+    
+//    @discardableResult
+//    open func addTagsWithAttributedString(_ titles: [NSAttributedString]) -> [TagView] {
+//        return addTagViews(titles.map(createNewTagViewAttributedString))
+//    }
     
     @discardableResult
     open func addTags(_ titles: [String]) -> [TagView] {
@@ -397,6 +443,11 @@ open class TagListView: UIView {
         return tagViews
     }
 
+    @discardableResult
+    open func insertTag(_ title: NSAttributedString, at index: Int, imageWidth: CGFloat) -> TagView {
+        return insertTagView(createNewTagViewAttributedString(title, ImageWidth: imageWidth), at: index)
+    }
+    
     @discardableResult
     open func insertTag(_ title: String, at index: Int) -> TagView {
         return insertTagView(createNewTagView(title), at: index)

@@ -81,6 +81,12 @@ open class TagView: UIButton {
         }
     }
     
+    @IBInspectable open var imageWidth: CGFloat = 0 {
+        didSet {
+            updateImageRightInsets()
+        }
+    }
+    
     @IBInspectable open var textFont: UIFont = .systemFont(ofSize: 12) {
         didSet {
             titleLabel?.font = textFont
@@ -160,6 +166,13 @@ open class TagView: UIButton {
         setupView()
     }
     
+    public init(attributedStringtitle: NSAttributedString, ImageWidth: CGFloat) {
+        super.init(frame: CGRect.zero)
+        setAttributedTitle(attributedStringtitle, for: UIControl.State())
+        
+        setupView()
+    }
+    
     public init(title: String) {
         super.init(frame: CGRect.zero)
         setTitle(title, for: UIControl.State())
@@ -187,7 +200,7 @@ open class TagView: UIButton {
     override open var intrinsicContentSize: CGSize {
         var size = titleLabel?.text?.size(withAttributes: [NSAttributedString.Key.font: textFont]) ?? CGSize.zero
         size.height = textFont.pointSize + paddingY * 2
-        size.width += paddingX * 2
+        size.width += paddingX * 2 + imageWidth
         if size.width < size.height {
             size.width = size.height
         }
@@ -203,6 +216,15 @@ open class TagView: UIButton {
         }
         else {
             titleEdgeInsets.right = paddingX
+        }
+    }
+    
+    private func updateImageRightInsets() {
+        if enableRemoveButton {
+            titleEdgeInsets.right = paddingX  + removeButtonIconSize + paddingX + (imageWidth)
+        }
+        else {
+            titleEdgeInsets.right = paddingX + (imageWidth)
         }
     }
     
