@@ -166,8 +166,11 @@ open class TagView: UIButton {
         setupView()
     }
     
-    public init(attributedStringtitle: NSAttributedString, ImageWidth: CGFloat) {
+    public var buttonTitle : String = ""
+    
+    public init(attributedStringtitle: NSAttributedString, buttonTitle : String, ImageWidth: CGFloat) {
         super.init(frame: CGRect.zero)
+        self.buttonTitle = buttonTitle
         setAttributedTitle(attributedStringtitle, for: UIControl.State())
         
         setupView()

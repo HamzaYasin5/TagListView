@@ -17,12 +17,12 @@ class ViewController: UIViewController, TagListViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let strings = ["TagListView", "TEAChart", "To Be Removed", "Quark Shell"]
+        let strings = ["TagListView", "TEAChart To Be Removed", "To Be Removed", "Quark Shell"]
         tagListView.delegate = self
         for str in strings {
             // Create Attachment
             let imageAttachment = NSTextAttachment()
-            imageAttachment.image = UIImage(named:"add")
+            imageAttachment.image = UIImage(named: "add")
             // Set bound to reposition
             let imageOffsetY: CGFloat = -5.0
             imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 20, height: 20)
@@ -35,7 +35,7 @@ class ViewController: UIViewController, TagListViewDelegate {
             // Add your text to mutable string
             let textAfterIcon = NSAttributedString(string: str)
             completeText.append(textAfterIcon)
-            tagListView.addTagAttributedString(completeText, ImageWidth: 20)
+            tagListView.addTagAttributedString(completeText, buttonTitle: str, ImageWidth: 20)
         }
         
         
@@ -84,7 +84,7 @@ class ViewController: UIViewController, TagListViewDelegate {
 
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
-        print("Tag pressed: \(title), \(sender)")
+        print("Tag pressed: \(title), \(tagView.buttonTitle)")
         tagView.isSelected = !tagView.isSelected
     }
     

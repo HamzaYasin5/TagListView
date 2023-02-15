@@ -334,9 +334,8 @@ open class TagListView: UIView {
         return CGSize(width: frame.width, height: height)
     }
     
-    private func createNewTagViewAttributedString(_ title: NSAttributedString, ImageWidth: CGFloat) -> TagView {
-        let tagView = TagView(attributedStringtitle: title, ImageWidth: ImageWidth)
-        
+    private func createNewTagViewAttributedString(_ title: NSAttributedString, buttonTitle: String, ImageWidth: CGFloat) -> TagView {
+        let tagView = TagView(attributedStringtitle: title, buttonTitle: buttonTitle, ImageWidth: ImageWidth)
         tagView.imageWidth = ImageWidth
         tagView.textColor = textColor
         tagView.selectedTextColor = selectedTextColor
@@ -403,9 +402,9 @@ open class TagListView: UIView {
     
 
     @discardableResult
-    open func addTagAttributedString(_ title: NSAttributedString, ImageWidth: CGFloat) -> TagView {
+    open func addTagAttributedString(_ title: NSAttributedString, buttonTitle: String, ImageWidth: CGFloat) -> TagView {
         defer { rearrangeViews() }
-        return addTagView(createNewTagViewAttributedString(title, ImageWidth: ImageWidth))
+        return addTagView(createNewTagViewAttributedString(title, buttonTitle: buttonTitle, ImageWidth: ImageWidth))
     }
     
     @discardableResult
@@ -444,8 +443,8 @@ open class TagListView: UIView {
     }
 
     @discardableResult
-    open func insertTag(_ title: NSAttributedString, at index: Int, imageWidth: CGFloat) -> TagView {
-        return insertTagView(createNewTagViewAttributedString(title, ImageWidth: imageWidth), at: index)
+    open func insertTag(_ title: NSAttributedString, buttonTitle: String, at index: Int, imageWidth: CGFloat) -> TagView {
+        return insertTagView(createNewTagViewAttributedString(title, buttonTitle: buttonTitle, ImageWidth: imageWidth), at: index)
     }
     
     @discardableResult
